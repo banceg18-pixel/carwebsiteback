@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicles",
+  "info": {
+    "singularName": "vehicle",
+    "pluralName": "vehicles",
+    "displayName": "Vehicle",
+    "description": "Collection of cars and vehicles"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "string"
+    },
+    "shortDesc": {
+      "type": "text"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "categories": {
+      "type": "json"
+    },
+    "attributes": {
+      "type": "json"
+    },
+    "equipments": {
+      "type": "json"
+    },
+    "mainImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "originalLink": {
+      "type": "string"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "galleryUrls": {
+      "type": "json"
+    }
+  }
+}
