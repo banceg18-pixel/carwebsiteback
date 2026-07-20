@@ -161,202 +161,299 @@ export default {
       }
     }
 
-    // Bootstrap Pages if empty
-    const pageCount = await strapi.db.query('api::page.page').count();
-    if (pageCount === 0) {
-      console.log('Pages are empty. Seeding defaults...');
-      try {
-        await strapi.documents('api::page.page').create({
-          data: {
-            title: "Mentions Légales",
-            slug: "mentions-legales",
-            content: `## Mentions Légales
+    // Bootstrap Pages individually if they don't exist
+    const defaultPages = [
+      {
+        title: "Mentions Légales",
+        slug: "mentions-legales",
+        content: `## Mentions Légales
 
-### 1. Éditeur du site
+Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), il est précisé aux utilisateurs du site garagegourrier.fr l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.
 
-Le présent site est édité par :
+### Éditeur du site
 
-**GARAGE GOURRIER**
-Société à responsabilité limitée (SARL)
-Siège social : Fraissinet de Lozère Bourg, 48220 Pont de Montvert Sud Mont Lozère
-SIREN : 812 433 589
-Numéro de TVA intracommunautaire : FR 812 433 589
-Téléphone : 01 87 66 58 71
-Email : contact@garagegourrier.fr
-Gérant : Florent GOURRIER
+- **Raison sociale** : Société par actions simplifiée
+- **Activité** : Commerce de voitures et de véhicules automobiles légers
+- **Code NAF / APE** : 4511Z
+- **SIREN** : 870 800 927
+- **SIRET du siège social** : 870 800 927 00051
+- **Numéro de TVA intracommunautaire** : FR54870800927
+- **Date de création** : 14 mai 1970
+- **Adresse du siège social** : 365 route de Vannes, 44800 Saint-Herblain, France
+- **Dirigeants** : DMD + 2 autres dirigeants
+- **Téléphone** : +33 1 87 66 58 71
+- **Adresse e-mail** : contact@garagegourrier.fr
 
-### 2. Hébergement
+### Hébergement du site
 
-Le site est hébergé par :
-**Hostinger International Ltd**
-61 Lordou Vironos Street, 6023 Larnaca, Chypre
+Le site est hébergé par un prestataire d'hébergement professionnel. Les coordonnées complètes de l'hébergeur peuvent être communiquées sur simple demande.
 
-### 3. Propriété intellectuelle
+### Propriété intellectuelle
 
-L'ensemble du contenu de ce site (textes, photographies, images, logos) est la propriété exclusive de Garage Gourrier ou de ses partenaires et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.
+L'ensemble du contenu du site garagegourrier.fr (textes, images, graphismes, logos, icônes, vidéos, structure, mise en page, etc.) est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.
 
-Toute reproduction, représentation, modification, publication ou adaptation totale ou partielle des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite, sauf autorisation écrite préalable de Garage Gourrier.
+Toute reproduction, représentation, modification, publication ou adaptation, totale ou partielle, de tout ou partie du site, quel que soit le moyen ou le procédé utilisé, est interdite sans l'autorisation écrite préalable de l'éditeur.
 
-### 4. Données personnelles
+### Responsabilité
 
-Conformément à la loi n°78-17 du 6 janvier 1978 modifiée relative à l'informatique, aux fichiers et aux libertés, et au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, de portabilité et de suppression des données vous concernant.
+Les informations diffusées sur le site garagegourrier.fr sont fournies à titre indicatif. L'éditeur s'efforce d'assurer l'exactitude et la mise à jour des informations, mais ne saurait être tenu responsable des omissions, inexactitudes ou carences.
 
-Pour exercer ces droits, vous pouvez nous contacter à l'adresse suivante : contact@garagegourrier.fr
+L'utilisateur reconnaît utiliser les informations et services proposés sous sa responsabilité exclusive.
 
-### 5. Cookies
+### Données personnelles
 
-Le site peut utiliser des cookies pour améliorer l'expérience utilisateur. En naviguant sur ce site, vous acceptez l'utilisation de cookies conformément à notre politique de confidentialité.
+Le site garagegourrier.fr peut être amené à collecter des données personnelles via ses formulaires de contact.
 
-### 6. Responsabilité
+Les informations recueillies sont utilisées uniquement dans le cadre de la relation commerciale et ne sont en aucun cas cédées à des tiers.
 
-Garage Gourrier s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site. Cependant, Garage Gourrier décline toute responsabilité pour les erreurs ou omissions présentes sur le site.
+Conformément à la réglementation en vigueur (RGPD et loi Informatique et Libertés), l'utilisateur dispose d'un droit d'accès, de rectification, d'opposition et de suppression des données le concernant.
 
-### 7. Loi applicable
+Toute demande peut être adressée par e-mail à : contact@garagegourrier.fr
 
-Le présent site et ses mentions légales sont soumis au droit français. Tout litige relatif au site sera soumis à la compétence des tribunaux français.`
-          },
-          status: 'published',
-        });
-        await strapi.documents('api::page.page').create({
-          data: {
-            title: "Conditions Générales de Vente",
-            slug: "cgv",
-            content: `## Conditions Générales de Vente (CGV)
+### Cookies
 
-**Garage Gourrier** — SIREN 812 433 589
-Fraissinet de Lozère Bourg, 48220 Pont de Montvert Sud Mont Lozère
-Mises à jour le : ${new Date().toLocaleDateString('fr-FR')}
+Le site peut utiliser des cookies afin d'améliorer l'expérience utilisateur, mesurer l'audience et proposer des services adaptés. L'utilisateur peut configurer son navigateur pour accepter ou refuser tout ou partie des cookies.
 
----
+### Droit applicable
 
-### Article 1 — Objet et champ d'application
+Les présentes mentions légales sont régies par le droit français. En cas de litige, et à défaut de résolution amiable, les tribunaux français seront seuls compétents.`
+      },
+      {
+        title: "Conditions Générales de Vente",
+        slug: "cgv",
+        content: `## Conditions Générales de Vente
 
-Les présentes Conditions Générales de Vente (CGV) régissent l'ensemble des ventes de véhicules automobiles d'occasion et de prestations de services réalisées par Garage Gourrier auprès de ses clients, qu'ils soient particuliers ou professionnels.
+Les présentes Conditions Générales de Vente régissent les relations contractuelles entre la société éditrice du site garagegourrier.fr et toute personne physique ou morale souhaitant procéder à l'achat d'un véhicule ou d'un service proposé sur le site.
 
-Toute commande implique l'acceptation sans réserve de ces CGV. Garage Gourrier se réserve le droit de modifier ses CGV à tout moment.
+Toute commande implique l'acceptation pleine et entière des présentes CGV.
 
-### Article 2 — Description des véhicules
+### Identification du vendeur
 
-Chaque véhicule proposé à la vente est décrit avec le plus grand soin (kilométrage, année, état général, équipements). Toutefois, les véhicules d'occasion peuvent présenter des traces normales d'usure liées à leur utilisation antérieure.
+- **Forme juridique** : Société par actions simplifiée
+- **Activité** : Commerce de voitures et de véhicules automobiles légers
+- **SIREN** : 870 800 927
+- **SIRET** : 870 800 927 00051
+- **TVA intracommunautaire** : FR54870800927
+- **Adresse du siège social** : 365 route de Vannes, 44800 Saint-Herblain, France
+- **Email** : contact@garagegourrier.fr
+- **Téléphone** : +33 1 87 66 58 71
 
-Avant toute vente, chaque véhicule fait l'objet d'une révision complète par nos techniciens qualifiés.
+### Objet
 
-### Article 3 — Prix
+Les présentes CGV ont pour objet de définir les conditions dans lesquelles le vendeur propose à la vente :
 
-Les prix affichés sur le site sont indiqués en euros (€) toutes taxes comprises (TTC). Garage Gourrier se réserve le droit de modifier ses prix à tout moment, mais les véhicules sont facturés au prix en vigueur au moment de la confirmation de commande.
+- Des véhicules automobiles neufs et d'occasion
+- Des prestations associées (courtage, livraison, location, réparation, vente de pièces détachées)
 
-Les frais de carte grise et d'immatriculation sont à la charge de l'acheteur, sauf mention contraire.
+### Véhicules proposés
 
-### Article 4 — Réservation et commande
+Les véhicules présentés sur le site sont décrits avec la plus grande exactitude possible. Les photographies, descriptions et informations techniques sont fournies à titre indicatif et n'ont pas de valeur contractuelle.
 
-La réservation d'un véhicule s'effectue via le site internet ou directement en concession. Un acompte de confirmation pourra être demandé pour sécuriser votre réservation. Cet acompte sera déduit du prix de vente final.
+Les véhicules d'occasion peuvent présenter une usure normale liée à leur ancienneté et à leur kilométrage.
 
-La vente n'est définitive qu'après signature du bon de commande et encaissement de l'acompte.
+### Commande et devis
 
-### Article 5 — Paiement
+Toute demande d'achat fait l'objet :
 
-Le solde du prix de vente est réglé au moment de la remise des clés. Les moyens de paiement acceptés sont :
+- D'une demande de devis préalable
+- D'une validation écrite du client
+- Le cas échéant, de la signature d'un devis ou d'un bon de commande
 
-- Virement bancaire
-- Chèque de banque (obligatoire pour tout montant supérieur à 1 000 €)
-- Financement par organisme de crédit partenaire
+La vente n'est considérée comme définitive qu'après acceptation du devis par le client et encaissement des sommes convenues.
 
-Le paiement en espèces est limité à 1 000 € conformément à la réglementation en vigueur.
+### Prix
 
-### Article 6 — Livraison
+Les prix sont exprimés en euros (€). Ils sont indiqués hors frais annexes éventuels (transport, livraison, formalités administratives).
 
-Garage Gourrier propose un service de livraison à domicile sur toute la France métropolitaine. Les frais et délais de livraison sont communiqués au moment de la commande.
+Les frais de livraison sont calculés en fonction du véhicule et du lieu de destination, puis communiqués au client lors de la demande de devis.
 
-Le client est responsable de la réception du véhicule. Il lui appartient de vérifier l'état du véhicule à la livraison et de formuler toute réserve par écrit dans les 48 heures.
+### Modalités de paiement
 
-### Article 7 — Garantie
+Les modalités de paiement sont précisées dans le devis ou le bon de commande. La livraison du véhicule est conditionnée au paiement intégral du prix convenu.
 
-Tous les véhicules vendus par Garage Gourrier bénéficient de la garantie légale de conformité (articles L217-4 et suivants du Code de la consommation) ainsi que de la garantie contre les vices cachés (articles 1641 et suivants du Code civil).
+Aucun véhicule ne pourra être remis au client tant que le règlement n'aura pas été intégralement effectué.
 
-Garage Gourrier propose également des extensions de garantie commerciale via ses partenaires, dont les modalités sont précisées sur devis.
+### Livraison
 
-### Article 8 — Droit de rétractation
+La livraison peut être effectuée :
 
-Conformément aux articles L221-18 et suivants du Code de la consommation, pour toute vente conclue à distance (via le site internet), le client particulier dispose d'un délai de 14 jours calendaires pour exercer son droit de rétractation, sans avoir à justifier de motifs ni à payer de pénalités.
+- En France
+- En Europe
+- En outre-mer
 
-Pour exercer ce droit, le client doit notifier sa décision par courrier électronique à contact@garagegourrier.fr ou par courrier recommandé à l'adresse du siège social.
+Deux options sont proposées :
 
-### Article 9 — Litiges
+- Livraison classique
+- Livraison express
 
-En cas de litige, le client peut saisir le médiateur de la consommation compétent ou s'adresser aux tribunaux compétents du ressort du siège social de Garage Gourrier.
+Les délais de livraison sont donnés à titre indicatif. Un retard éventuel ne peut donner lieu à aucune indemnité ou annulation, sauf accord contraire écrit.
 
-### Article 10 — Données personnelles
+### Transfert de propriété et des risques
 
-Les informations collectées lors de la commande sont traitées conformément à notre politique de confidentialité et au RGPD. Elles sont utilisées uniquement pour le traitement de votre commande et ne sont pas transmises à des tiers sans votre consentement.
+Le transfert de propriété du véhicule intervient à l'encaissement complet du prix. Le transfert des risques intervient à la remise du véhicule au client ou à son transporteur.
 
-Pour exercer vos droits : contact@garagegourrier.fr`
-          },
-          status: 'published',
-        });
-        await strapi.documents('api::page.page').create({
-          data: {
-            title: "Conditions Générales d'Utilisation",
-            slug: "cgu",
-            content: `## Conditions Générales d'Utilisation (CGU)
+### Droit de rétractation
 
-**Garage Gourrier** — SIREN 812 433 589
-Mises à jour le : ${new Date().toLocaleDateString('fr-FR')}
+Conformément à la législation en vigueur, le droit de rétractation ne s'applique pas aux ventes de véhicules conclues en concession ou après signature d'un bon de commande définitif, sauf dispositions légales contraires.
 
----
+### Garanties
 
-### Article 1 — Objet
+Les véhicules vendus bénéficient :
 
-Les présentes Conditions Générales d'Utilisation (CGU) ont pour objet de définir les modalités et conditions d'utilisation du site internet de Garage Gourrier, accessible à l'adresse garagegourrier.fr, ainsi que de définir les droits et obligations des parties dans ce cadre.
+- Des garanties légales en vigueur
+- Le cas échéant, d'une garantie commerciale précisée lors de la vente
 
-### Article 2 — Accès au site
+Les conditions de garantie sont détaillées dans les documents remis au client lors de la livraison.
 
-Le site est accessible gratuitement à tout utilisateur disposant d'un accès à internet. Tous les frais supportés par l'utilisateur pour accéder au service (matériel informatique, connexion internet, etc.) sont à sa charge.
+### Responsabilité
 
-Garage Gourrier se réserve le droit de refuser l'accès au site, unilatéralement et sans notification préalable, à tout utilisateur ne respectant pas les présentes CGU.
+Le vendeur ne saurait être tenu responsable :
 
-### Article 3 — Navigation et cookies
+- D'une mauvaise utilisation du véhicule
+- D'un défaut d'entretien
+- D'une usure normale
 
-Le site peut utiliser des cookies afin d'améliorer l'expérience utilisateur. L'utilisateur a la possibilité de désactiver les cookies depuis les paramètres de son navigateur, étant précisé que cela peut affecter certaines fonctionnalités du site.
+La responsabilité du vendeur est en tout état de cause limitée au montant de la vente concernée.
 
-### Article 4 — Propriété intellectuelle
+### Données personnelles
 
-L'ensemble du contenu du site (textes, images, vidéos, logos, icônes) est la propriété de Garage Gourrier et est protégé par le droit d'auteur. Toute reproduction ou représentation, même partielle, sans autorisation expresse est interdite.
+Les données personnelles collectées sont traitées conformément à la Politique de confidentialité disponible sur le site.
 
-### Article 5 — Responsabilité
+### Force majeure
 
-Garage Gourrier met tout en œuvre pour offrir aux utilisateurs des informations et/ou des outils disponibles et vérifiés, mais ne saurait être tenu responsable des erreurs, d'une absence de disponibilité des fonctionnalités et/ou de la présence de virus sur son site.
+Aucune des parties ne pourra être tenue responsable en cas de force majeure empêchant l'exécution de ses obligations (catastrophe naturelle, grève, panne logistique, etc.).
 
-L'utilisateur est responsable de la sécurité de son équipement informatique. Garage Gourrier décline toute responsabilité pour tout dommage subi par l'utilisateur ou par des tiers du fait de l'utilisation du site.
+### Droit applicable et litiges
 
-### Article 6 — Liens hypertextes
+Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité. À défaut, les tribunaux français seront seuls compétents.
 
-Le site peut contenir des liens vers d'autres sites internet. Ces liens sont fournis à titre informatif. Garage Gourrier ne saurait être tenu responsable du contenu des sites tiers vers lesquels des liens hypertextes pointent.
+### Acceptation des CGV
 
-### Article 7 — Protection des données personnelles
+Le client reconnaît avoir pris connaissance des présentes Conditions Générales de Vente et les accepter sans réserve avant toute commande.`
+      },
+      {
+        title: "Politique de Confidentialité",
+        slug: "politique-de-confidentialite",
+        content: `## Politique de Confidentialité
 
-Dans le cadre de l'utilisation du site, Garage Gourrier est susceptible de collecter des données à caractère personnel vous concernant. Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits suivants :
+La présente politique de confidentialité a pour objectif d'informer les utilisateurs du site garagegourrier.fr de la manière dont leurs données personnelles sont collectées, utilisées et protégées, conformément à la réglementation en vigueur, notamment le Règlement Général sur la Protection des Données (RGPD).
 
-- **Droit d'accès** : vous pouvez demander une copie des données vous concernant.
-- **Droit de rectification** : vous pouvez demander la correction de données inexactes.
-- **Droit à l'effacement** : vous pouvez demander la suppression de vos données.
-- **Droit d'opposition** : vous pouvez vous opposer au traitement de vos données.
-- **Droit à la portabilité** : vous pouvez demander le transfert de vos données.
+### Responsable du traitement des données
 
-Pour exercer ces droits, contactez-nous à : contact@garagegourrier.fr
+Les données personnelles collectées sur le site garagegourrier.fr sont traitées par l'éditeur du site, dans le cadre de son activité de commerce de véhicules automobiles.
 
-### Article 8 — Modification des CGU
+Pour toute question relative à la protection des données personnelles, vous pouvez nous contacter à l'adresse suivante : contact@garagegourrier.fr
 
-Garage Gourrier se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet dès leur mise en ligne. L'utilisateur est invité à consulter régulièrement les CGU.
+### Données collectées
 
-### Article 9 — Loi applicable et juridiction compétente
+Nous pouvons être amenés à collecter les données personnelles suivantes :
 
-Les présentes CGU sont soumises au droit français. Tout litige relatif à leur interprétation ou à leur exécution relève de la compétence exclusive des juridictions françaises.`
-          },
-          status: 'published',
-        });
-        console.log('Successfully seeded pages!');
-      } catch (err) {
-        console.error('Failed to seed pages:', err);
+- Nom et prénom
+- Adresse e-mail
+- Numéro de téléphone
+- Informations communiquées via les formulaires de contact ou de demande de devis
+- Toute information transmise volontairement par l'utilisateur
+
+Ces données sont collectées uniquement lorsque l'utilisateur les renseigne de manière volontaire.
+
+### Finalités du traitement
+
+Les données personnelles collectées sont utilisées pour les finalités suivantes :
+
+- Répondre aux demandes de contact ou de devis
+- Assurer le suivi des échanges commerciaux
+- Pourvoir des informations relatives à nos services et véhicules
+- Améliorer la qualité du service et la relation client
+
+Les données ne sont en aucun cas utilisées à des fins commerciales non autorisées.
+
+### Conservation des données
+
+Les données personnelles sont conservées uniquement pour la durée nécessaire aux finalités pour lesquelles elles ont été collectées, et dans le respect des obligations légales et réglementaires.
+
+### Partage des données
+
+Les données personnelles collectées ne sont ni vendues, ni cédées, ni louées à des tiers.
+
+Elles peuvent toutefois être transmises à des partenaires ou prestataires uniquement lorsque cela est nécessaire à l'exécution d'un service (transport, livraison, démarches administratives), dans le respect strict de la confidentialité.
+
+### Sécurité des données
+
+Nous mettons en oeuvre toutes les mesures techniques et organisationnelles appropriées afin de garantir la sécurité, l'intégrité et la confidentialité des données personnelles, et de prévenir tout accès non autorisé, perte ou divulgation.
+
+### Droits des utilisateurs
+
+Conformément à la réglementation en vigueur, l'utilisateur dispose des droits suivants :
+
+- Droit d'accès à ses données
+- Droit de rectification
+- Droit d'effacement
+- Droit d'opposition
+- Droit à la limitation du traitement
+- Droit à la portabilité des données
+
+Toute demande relative à l'exercice de ces droits peut être adressée par e-mail à : contact@garagegourrier.fr
+
+### Cookies
+
+Le site garagegourrier.fr peut utiliser des cookies afin d'améliorer l'expérience utilisateur, mesurer l'audience et optimiser le fonctionnement du site.
+
+L'utilisateur peut configurer son navigateur pour accepter ou refuser les cookies à tout moment.
+
+### Modification de la politique de confidentialité
+
+La présente politique de confidentialité peut être modifiée à tout moment afin de garantir sa conformité avec la législation en vigueur. La date de la dernière mise à jour fait foi.
+
+### Droit applicable
+
+La présente politique de confidentialité est régie par le droit français. En cas de litige, les juridictions françaises seront seules compétentes.`
+      },
+      {
+        title: "Conditions Générales d'Utilisation",
+        slug: "cgu",
+        content: `## Conditions Générales d'Utilisation (CGU)
+
+En accédant et en utilisant le site garagegourrier.fr, vous acceptez sans réserve les présentes conditions générales d'utilisation.
+
+### Article 1 - Accès au site
+
+Le site est accessible gratuitement à tout utilisateur disposant d'un accès à internet.
+
+### Article 2 - Propriété intellectuelle
+
+L'ensemble du contenu de ce site (textes, images, logos) est la propriété exclusive de GARAGE GOURRIER. Toute reproduction ou représentation, totale ou partielle, sans autorisation écrite préalable est interdite.
+
+### Article 3 - Liens hypertextes
+
+Le site peut contenir des liens vers d'autres sites internet. GARAGE GOURRIER n'est pas responsable du contenu de ces sites externes.
+
+### Article 4 - Limitation de responsabilité
+
+GARAGE GOURRIER s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site, mais ne saurait être tenu responsable des erreurs ou omissions.
+
+### Article 5 - Cookies
+
+Le site peut utiliser des cookies pour améliorer l'expérience utilisateur. L'utilisateur peut configurer son navigateur pour refuser les cookies.
+
+### Article 6 - Droit applicable
+
+Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.`
+      }
+    ];
+
+    for (const page of defaultPages) {
+      const exists = await strapi.db.query('api::page.page').findOne({ where: { slug: page.slug } });
+      if (!exists) {
+        console.log(`Seeding page: ${page.title}...`);
+        try {
+          await strapi.documents('api::page.page').create({
+            data: page,
+            status: 'published',
+          });
+          console.log(`Successfully seeded page: ${page.title}!`);
+        } catch (err) {
+          console.error(`Failed to seed page ${page.title}:`, err);
+        }
       }
     }
   },
