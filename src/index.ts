@@ -12,7 +12,7 @@ export default {
     if (count === 0) {
       console.log('Database is empty. Importing vehicles.json...');
       try {
-        const dataPath = path.resolve(process.cwd(), '../Site_principale/src/data/vehicles.json');
+        const dataPath = path.resolve(process.cwd(), 'src/data/vehicles.json');
         console.log('Trying to read from:', dataPath);
         const fileContent = fs.readFileSync(dataPath, 'utf-8');
         const vehicles = JSON.parse(fileContent);
@@ -71,7 +71,7 @@ export default {
     if (allVehiclesToPatch.length > 0) {
       console.log('Patching vehicles with images...');
       try {
-        const dataPath = path.resolve(process.cwd(), '../Site_principale/src/data/vehicles.json');
+        const dataPath = path.resolve(process.cwd(), 'src/data/vehicles.json');
         const fileContent = fs.readFileSync(dataPath, 'utf-8');
         const jsonVehicles = JSON.parse(fileContent);
         
