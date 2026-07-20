@@ -38,6 +38,15 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "iban": {
+      "type": "string"
+    },
+    "bic": {
+      "type": "string"
+    },
+    "bankName": {
+      "type": "string"
     }
   }
 }
