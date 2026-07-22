@@ -47,6 +47,18 @@
     },
     "bankName": {
       "type": "string"
+    },
+    "commissaireAuxComptes": {
+      "type": "string"
+    },
+    "notificationEmail": {
+      "type": "email"
+    },
+    "withdrawalGuaranteeText": {
+      "type": "text"
+    },
+    "directeurGeneral": {
+      "type": "string"
     }
   }
 }

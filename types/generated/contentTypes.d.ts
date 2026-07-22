@@ -486,25 +486,32 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
   attributes: {
     aboutText: Schema.Attribute.RichText;
+    bankName: Schema.Attribute.String;
+    bic: Schema.Attribute.String;
+    commissaireAuxComptes: Schema.Attribute.String;
     companyName: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    directeurGeneral: Schema.Attribute.String;
     email: Schema.Attribute.Email;
     heroImage: Schema.Attribute.Media<'images'>;
     heroSubtitle: Schema.Attribute.Text;
     heroTitle: Schema.Attribute.String;
+    iban: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::global.global'
     > &
       Schema.Attribute.Private;
+    notificationEmail: Schema.Attribute.Email;
     phoneNumber: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    withdrawalGuaranteeText: Schema.Attribute.Text;
   };
 }
 
@@ -566,6 +573,62 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiQuoteRequestQuoteRequest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'quote_requests';
+  info: {
+    description: 'Historique des demandes de devis';
+    displayName: 'Quote Request';
+    pluralName: 'quote-requests';
+    singularName: 'quote-request';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    clientAddress: Schema.Attribute.String & Schema.Attribute.Required;
+    clientCity: Schema.Attribute.String & Schema.Attribute.Required;
+    clientCountry: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'France'>;
+    clientEmail: Schema.Attribute.Email & Schema.Attribute.Required;
+    clientFirstName: Schema.Attribute.String & Schema.Attribute.Required;
+    clientLastName: Schema.Attribute.String & Schema.Attribute.Required;
+    clientPhone: Schema.Attribute.String & Schema.Attribute.Required;
+    clientPostalCode: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quote-request.quote-request'
+    > &
+      Schema.Attribute.Private;
+    pdfUrl: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    quoteNumber: Schema.Attribute.String & Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<
+      [
+        'Nouveau',
+        'Devis envoy\u00E9',
+        'En attente de paiement',
+        'Valid\u00E9',
+        'Annul\u00E9',
+      ]
+    > &
+      Schema.Attribute.DefaultTo<'Devis envoy\u00E9'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    vehicleMarque: Schema.Attribute.String;
+    vehicleModel: Schema.Attribute.String;
+    vehiclePrice: Schema.Attribute.String;
+    vehicleReference: Schema.Attribute.String;
+    vehicleTitle: Schema.Attribute.String & Schema.Attribute.Required;
+    vehicleYear: Schema.Attribute.String;
   };
 }
 
@@ -1166,6 +1229,7 @@ declare module '@strapi/strapi' {
       'api::global.global': ApiGlobalGlobal;
       'api::message.message': ApiMessageMessage;
       'api::page.page': ApiPagePage;
+      'api::quote-request.quote-request': ApiQuoteRequestQuoteRequest;
       'api::review.review': ApiReviewReview;
       'api::vehicle.vehicle': ApiVehicleVehicle;
       'plugin::content-releases.release': PluginContentReleasesRelease;

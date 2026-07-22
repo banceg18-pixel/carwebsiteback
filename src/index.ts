@@ -64,6 +64,29 @@ export default {
       }
     }
 
+    // Always ensure permissions for quote-request and global exist
+    try {
+      const publicRole = await strapi.db.query('plugin::users-permissions.role').findOne({ where: { type: 'public' } });
+      if (publicRole) {
+        const extraActions = [
+          'api::global.global.find',
+          'api::quote-request.quote-request.create',
+          'api::quote-request.quote-request.find',
+          'api::quote-request.quote-request.findOne',
+        ];
+        for (const action of extraActions) {
+          const exists = await strapi.db.query('plugin::users-permissions.permission').findOne({ where: { action, role: publicRole.id } });
+          if (!exists) {
+            await strapi.db.query('plugin::users-permissions.permission').create({
+              data: { action, role: publicRole.id }
+            });
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Failed to update public permissions:', err);
+    }
+
     // Patch missing images if any
     const allVehiclesToPatch = await strapi.documents('api::vehicle.vehicle').findMany({
       limit: 1000

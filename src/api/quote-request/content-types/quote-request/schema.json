@@ -1,0 +1,85 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quote_requests",
+  "info": {
+    "singularName": "quote-request",
+    "pluralName": "quote-requests",
+    "displayName": "Quote Request",
+    "description": "Historique des demandes de devis"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "quoteNumber": {
+      "type": "string",
+      "required": true
+    },
+    "clientFirstName": {
+      "type": "string",
+      "required": true
+    },
+    "clientLastName": {
+      "type": "string",
+      "required": true
+    },
+    "clientEmail": {
+      "type": "email",
+      "required": true
+    },
+    "clientPhone": {
+      "type": "string",
+      "required": true
+    },
+    "clientAddress": {
+      "type": "string",
+      "required": true
+    },
+    "clientPostalCode": {
+      "type": "string",
+      "required": true
+    },
+    "clientCity": {
+      "type": "string",
+      "required": true
+    },
+    "clientCountry": {
+      "type": "string",
+      "default": "France"
+    },
+    "vehicleTitle": {
+      "type": "string",
+      "required": true
+    },
+    "vehicleMarque": {
+      "type": "string"
+    },
+    "vehicleModel": {
+      "type": "string"
+    },
+    "vehicleYear": {
+      "type": "string"
+    },
+    "vehiclePrice": {
+      "type": "string"
+    },
+    "vehicleReference": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Nouveau",
+        "Devis envoyé",
+        "En attente de paiement",
+        "Validé",
+        "Annulé"
+      ],
+      "default": "Devis envoyé"
+    },
+    "pdfUrl": {
+      "type": "string"
+    }
+  }
+}
