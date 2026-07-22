@@ -7,3 +7,7 @@ build/
 .env.*
 !.env.example
 public/uploads/
+deploy.sh
+uploads_backup.tar.gz
+public/uploads_backup/
+database_backup_avant_merge.sql
