@@ -145,9 +145,11 @@ export default {
       console.log('Categories are empty. Seeding defaults...');
       try {
         const defaultCategories = [
-          { name: 'BMW', slug: 'bmw', description: 'Série 1, Série 3, X1, X3...' },
-          { name: 'Peugeot', slug: 'peugeot', description: '208, 308, 2008, 3008...' },
-          { name: 'Utilitaires', slug: 'vehicule-utilitaire', description: 'Berlingo, Kangoo, Master...' }
+          { name: 'Voitures Sans Permis', slug: 'vehicules-sans-permis', description: 'Voir les véhicules sans permis disponibles' },
+          { name: 'Citadines & Compactes', slug: 'citadine', description: 'Idéales pour la ville et les trajets quotidiens' },
+          { name: 'SUV & 4x4', slug: 'suv-4x4', description: 'Confort, espace et polyvalence pour tous vos trajets' },
+          { name: 'Berlines & Breaks', slug: 'berline', description: 'Élégance, confort routier et grands espaces' },
+          { name: 'Utilitaires & Familiales', slug: 'vehicule-utilitaire', description: 'Pour les professionnels et les grandes familles' }
         ];
 
         for (const cat of defaultCategories) {
@@ -195,16 +197,16 @@ Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la con
 
 ### Éditeur du site
 
-- **Raison sociale** : Société par actions simplifiée
-- **Activité** : Commerce de voitures et de véhicules automobiles légers
-- **Code NAF / APE** : 4511Z
-- **SIREN** : 870 800 927
-- **SIRET du siège social** : 870 800 927 00051
-- **Numéro de TVA intracommunautaire** : FR54870800927
-- **Date de création** : 14 mai 1970
-- **Adresse du siège social** : 365 route de Vannes, 44800 Saint-Herblain, France
-- **Dirigeants** : DMD + 2 autres dirigeants
-- **Téléphone** : +33 1 87 66 58 71
+- **Raison sociale** : GARAGE GOURRIER
+- **Forme juridique** : Société à responsabilité limitée (SARL)
+- **Activité (Code NAF / APE)** : Entretien et réparation de véhicules automobiles légers - 4520A
+- **SIREN** : 812 433 589
+- **SIRET du siège social** : 812 433 589 00015
+- **Numéro de TVA intracommunautaire** : FR15812433589
+- **Date de création** : 07 juillet 2015
+- **Adresse du siège social** : FRAISSINET DE LOZERE BOURG, 48220 PONT DE MONTVERT SUD MONT LOZERE, France
+- **Dirigeants** : Florent GOURRIER
+- **Téléphone** : 01 87 66 58 71
 - **Adresse e-mail** : contact@garagegourrier.fr
 
 ### Hébergement du site
@@ -252,14 +254,17 @@ Toute commande implique l'acceptation pleine et entière des présentes CGV.
 
 ### Identification du vendeur
 
-- **Forme juridique** : Société par actions simplifiée
-- **Activité** : Commerce de voitures et de véhicules automobiles légers
-- **SIREN** : 870 800 927
-- **SIRET** : 870 800 927 00051
-- **TVA intracommunautaire** : FR54870800927
-- **Adresse du siège social** : 365 route de Vannes, 44800 Saint-Herblain, France
+- **Raison sociale** : GARAGE GOURRIER
+- **Forme juridique** : Société à responsabilité limitée (SARL)
+- **Activité (Code NAF / APE)** : Entretien et réparation de véhicules automobiles légers - 4520A
+- **SIREN** : 812 433 589
+- **SIRET** : 812 433 589 00015
+- **TVA intracommunautaire** : FR15812433589
+- **Date de création** : 07 juillet 2015
+- **Adresse du siège social** : FRAISSINET DE LOZERE BOURG, 48220 PONT DE MONTVERT SUD MONT LOZERE, France
+- **Dirigeants** : Florent GOURRIER
 - **Email** : contact@garagegourrier.fr
-- **Téléphone** : +33 1 87 66 58 71
+- **Téléphone** : 01 87 66 58 71
 
 ### Objet
 
